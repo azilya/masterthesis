@@ -32,8 +32,12 @@ def chunk(filen):
             elif pos[0] in suit or pos.startswith("Vmp"): 
                 if pos[0] == 'P' or pos[0] == 'A':
                     case = pos[5]
+                    num = pos[4]
+                    gen = pos[3]
                 elif (pos[0] == 'N' and len(pos) < 7) or (pos[0] == 'M' and len(pos) > 2):
                     case = pos[4]
+                    num = pos[3]
+                    gen = pos[2]
                     if pos == 'N':
                         case = pos[-1]
                 elif pos[0] == 'V':
@@ -53,8 +57,12 @@ def chunk(filen):
                         if pos[0] in suit or pos.startswith("Vmp"): 
                             if pos[0] == 'P' or pos[0] == 'A':
                                 case = pos[5]
+                                num = pos[4]
+                                gen = pos[3]
                             elif (pos[0] == 'N' and len(pos) < 7) or (pos[0] == 'M' and len(pos) > 2):
                                 case = pos[4]
+                                num = pos[3]
+                                gen = pos[2]
                                 if pos == 'N':
                                     case = pos[-1]
                             elif pos[0] == 'V':
@@ -65,12 +73,16 @@ def chunk(filen):
                         nword, npos, nl = lines[i].split("\t")
                         if len(npos) == 1:
                             break
-                        elif npos[0] == 'P':
+                        elif npos[0] == 'P' or npos == 'A':
                             ncase = npos[5]
+                            nnum = pos[4]
+                            ngen = pos[3]
                         elif (npos[0] == 'N' and len(pos) < 7) or (npos[0] == 'M' and len(npos) > 2):
                             ncase = npos[4]
+                            nnum = pos[3]
+                            ngen = pos[2]
                             if npos == 'N':
-                                case = npos[-1]                        
+                                ncase = npos[-1]                        
                         else:
                             ncase = ''
 #                         if (npos.startswith("Np") or nword.istitle()) and not (pos.startswith("Np") or word.istitle()):
@@ -90,7 +102,7 @@ def chunk(filen):
                             else:
                                 np.append(lines[i])
                         elif npos[0] == 'A':
-                            if pos[0] == 'A':
+                            if pos[0] == 'A' and ngen == gen and nnum == num:
                                 np.append(lines[i])
                         elif npos[0] == 'M' and case == '-' and npos[-1] == 'd':
                             np.append(lines[i])
